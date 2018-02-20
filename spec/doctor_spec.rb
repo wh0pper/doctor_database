@@ -22,7 +22,7 @@ describe('Doctor') do
     end
   end
 
-  describe('#save and #read_all') do
+  describe('#save') do
     it('saves current doctor instance to database') do
       doctor = Doctor.new({:name =>'doc', :specialty => 'ology'})
       doctor.save
@@ -40,6 +40,24 @@ describe('Patient') do
       expect(patient.name).to(eq('doc'))
       expect(patient.birthday).to(eq('1980-11-11'))
       expect(patient.need).to(eq('general'))
+    end
+  end
+
+  describe('#save') do
+    it('saves current patient instance to database') do
+      patient = Patient.new({:name =>'Jane', :birthday => '1985-11-11', :need => 'cough'})
+      patient.save
+      newpatient = DB.exec('SELECT * FROM patients;')
+      expect(newpatient[0].fetch('name')).to(eq('Jane'))
+    end
+  end
+
+  describe('#read_all') do
+    it('reads current patient from database') do
+      patient = Patient.new({:name =>'Sophie', :birthday => '1985-11-11', :need => 'tuberculosis'})
+      patient.save
+      result = Patient.read_all
+      expect(result[0].fetch('birthday')).to(eq('1985-11-11 00:00:00'))
     end
   end
 end
