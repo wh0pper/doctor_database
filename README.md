@@ -1,30 +1,28 @@
-# Flashcards
+# Doctor
 
-#### A simple Sinatra/PostgreSQL application, 02.19.2018
+## February 20, 2018
 
-#### By Jared Clemmensen, Russell Hofvendahl
+#### Sinatra, PostgreSQL App
+
+#### By Jared Clemmensen, John Rykken
 
 ## Description
-  A CRUD application for making and using flashcards. Uses class Card with methods to initialize card, access and modify card info and delete card data from database.
+  A CRUD application for a faux hospital allowing administrators, doctors, and patients to view and input information.
 
 ## Specs
 
 #### Backend
-  1. Create new Card instance (initialize).
-    Example input:
-    Example output:
-  2. Get array of Card objects from cards table (all, class method).
-  3. Clear cards table (clear_all, class method).
-    Example input:
-    Example output
-  4. Update name, front or back, update database (name; front; back)
-  5. Delete card instance, update database (delete)
+  1. Add new doctor (initialize(name, specialty))
+  2. Add new patient (initialize(name, DOB, health concern))
+  3. Assign patient to doctor ( assign_dr(doctorID)
+  4. Search doctors table by specialty and return list of all ( list(specialty) )
+  5. List all patients, and doctors ( .all() )
+  6. List all patients of one doctor ( .patients )
+  7. Return doctor of any given patient ( .doctor )
 
 #### Frontend
-  1. Make card, display card fronts
-  2. Click to display back; again to display front
-  3. Click x icon to remove card
-  4. click pencil icon to edit
+  1.
+
 
 ## Setup/Installation Requirements
   1. install ruby 2.2.2

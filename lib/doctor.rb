@@ -1,5 +1,20 @@
 require("pry")
 
+class Doctor
+  attr_accessor :name, :specialty
+
+  def initialize(attributes)
+    @name = attributes[:name]
+    @specialty = attributes[:specialty]
+  end
+
+
+end
+
+
+
+
+
 class Card
   attr_accessor :front, :back, :id
 

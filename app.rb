@@ -3,10 +3,11 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'pry'
 also_reload('lib/**/*.rb')
-require './lib/card'
+require './lib/doctor'
+require './lib/patient'
 require 'pg'
 
-DB = PG.connect({:dbname => 'flashcards_test'})
+DB = PG.connect({:dbname => 'doctor_patient'})
 Card.remove_all
 
 get('/') do
