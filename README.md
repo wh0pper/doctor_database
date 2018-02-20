@@ -12,8 +12,10 @@
 ## Specs
 
 #### Backend
-  1. Add new doctor (initialize(name, specialty))
-  2. Add new patient (initialize(name, DOB, health concern))
+  1. Create new doctor (initialize(name, specialty))
+      * Save to database
+  2. Create new patient (initialize(name, DOB, health concern))
+      * Save to database
   3. Assign patient to doctor ( assign_dr(doctorID)
   4. Search doctors table by specialty and return list of all ( list(specialty) )
   5. List all patients, and doctors ( .all() )

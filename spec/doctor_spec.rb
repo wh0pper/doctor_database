@@ -21,6 +21,16 @@ describe('Doctor') do
       expect(doctor.specialty).to(eq('ology'))
     end
   end
+
+  describe('#save and #read_all') do
+    it('saves current doctor instance to database') do
+      doctor = Doctor.new({:name =>'doc', :specialty => 'ology'})
+      doctor.save
+      result = Doctor.read_all
+      expect(result[0].fetch('name')).to(eq('doc'));
+      expect(result[0].fetch('specialty')).to(eq('ology'));
+    end
+  end
 end
 
 describe('Patient') do

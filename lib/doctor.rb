@@ -8,7 +8,24 @@ class Doctor
     @specialty = attributes[:specialty]
   end
 
+  def save
+    DB.exec("INSERT INTO doctors (name, specialty) VALUES ('#{@name}', '#{@specialty}');")
+  end
 
+  def self.read_all
+    result = DB.exec("SELECT * FROM doctors;")
+    doctors = []
+    result.each do |doctor|
+      doctors.push(doctor)
+    end
+    return doctors
+  end
+
+  def ==(other_doctor)
+    same_name = self.name.eql?(other_doctor.name)
+    same_specialty = self.specialty.eql?(other_doctor.specialty)
+    same_name.&(same_specialty)
+  end
 end
 
 
