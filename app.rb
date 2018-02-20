@@ -8,21 +8,74 @@ require './lib/patient'
 require 'pg'
 
 DB = PG.connect({:dbname => 'doctor_patient'})
-Card.remove_all
 
 get('/') do
-  @cards = Card.read_all
-  erb(:flashcards)
+  erb(:home)
 end
 
-post('/') do
-  front = params["front"]
-  back = params["back"]
-  card = Card.new({:front => front, :back => back})
-  card.create
-  @cards = Card.read_all
-  erb(:flashcards)
+get('/doctors') do
+  erb(:doctors)
 end
+
+get('/patients') do
+  erb(:patients)
+end
+
+get('/administrators') do
+  @doctors = []
+  @patients = []
+  erb(:administrators)
+end
+
+post('/administrators') do
+
+  doctor_name = params[:name_doc]
+  specialty = params[:specialty]
+  patient_name = params[:name_patient]
+  birthday = params[:birthday]
+  need = params[:need]
+  if doctor_name
+    doctor = Doctor.new({:name => doctor_name, :specialty => specialty})
+    doctor.save
+  end
+  if patient_name
+    patient = Patient.new({:name => patient_name, :birthday => birthday, :need => need})
+    patient.save
+  end
+  @doctors = Doctor.read_all
+  @patients = Patient.read_all
+  erb(:administrators)
+end
+
+get('/patients/:id') do
+  @this_patient = Patient.find(params[:id])
+  @doctors = Doctor.read_all
+  erb(:patients)
+end
+
+post('/patients/:id') do
+  @this_patient = Patient.find(params[:id])
+  doc_id = params[:doclist]
+  @this_patient.assign_dr(doc_id)
+  @revised_patient = Patient.find(params[:id])
+  @doctors = Doctor.read_all
+  erb(:patients)
+end
+
+
+# get('/') do
+#   @cards = Card.read_all
+#   erb(:flashcards)
+# end
+#
+# post('/') do
+#   front = params["front"]
+#   back = params["back"]
+#   card = Card.new({:front => front, :back => back})
+#   card.create
+#   @cards = Card.read_all
+#   erb(:flashcards)
+# end
 
 # get('/:word') do
 #   word = params[:word]

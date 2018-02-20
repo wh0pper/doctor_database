@@ -31,6 +31,14 @@ describe('Doctor') do
       expect(result[0].fetch('specialty')).to(eq('ology'));
     end
   end
+
+  describe('#get_id') do
+    it('returns id number of doctor in database') do
+      doctor = Doctor.new({:name =>'doc', :specialty => 'ology'})
+      doctor.save
+      expect(doctor.get_id.is_a?(Integer)).to(eq(true))
+    end
+  end
 end
 
 describe('Patient') do
@@ -58,6 +66,19 @@ describe('Patient') do
       patient.save
       result = Patient.read_all
       expect(result[0].fetch('birthday')).to(eq('1985-11-11 00:00:00'))
+    end
+  end
+
+  describe('#assign_dr') do
+    it('gives patient foreign key pointing to doctor') do
+      patient = Patient.new({:name =>'Sophie', :birthday => '1985-11-11', :need => 'depression'})
+      doctor = Doctor.new({:name =>'doc', :specialty => 'psychiatrist'})
+      patient.save
+      doctor.save
+      doctor.get_id
+      patient.assign_dr(doctor.id)
+      result = Patient.read_all
+      expect(result[0].fetch('doctorid').to_i).to(eq(doctor.id))
     end
   end
 end

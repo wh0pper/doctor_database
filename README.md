@@ -18,7 +18,7 @@
       * Save to database
   3. Assign patient to doctor ( assign_dr(doctorID)
   4. Search doctors table by specialty and return list of all ( list(specialty) )
-  5. List all patients, and doctors ( .all() )
+  5. List all patients, and doctors ( .read_all() )
   6. List all patients of one doctor ( .patients )
   7. Return doctor of any given patient ( .doctor )
 

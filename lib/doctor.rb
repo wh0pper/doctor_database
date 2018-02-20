@@ -1,6 +1,7 @@
 require("pry")
 
 class Doctor
+  attr_reader :id
   attr_accessor :name, :specialty
 
   def initialize(attributes)
@@ -9,7 +10,9 @@ class Doctor
   end
 
   def save
-    DB.exec("INSERT INTO doctors (name, specialty) VALUES ('#{@name}', '#{@specialty}');")
+    if !(DB.exec("SELECT * FROM doctors;").column_values(1).include?(@name))
+      DB.exec("INSERT INTO doctors (name, specialty) VALUES ('#{@name}', '#{@specialty}');")
+    end
   end
 
   def self.read_all
@@ -21,62 +24,17 @@ class Doctor
     return doctors
   end
 
+  def get_id
+    @id = DB.exec("SELECT id FROM doctors WHERE name='#{@name}';")[0]['id'].to_i
+  end
+
+  def self.get_name(id)
+    DB.exec("SELECT name FROM doctors WHERE id='#{id}';")[0]['name']
+  end
+
   def ==(other_doctor)
     same_name = self.name.eql?(other_doctor.name)
     same_specialty = self.specialty.eql?(other_doctor.specialty)
     same_name.&(same_specialty)
-  end
-end
-
-
-
-
-
-class Card
-  attr_accessor :front, :back, :id
-
-  def initialize(attributes)
-    @front = attributes[:front]
-    @back = attributes[:back]
-  end
-
-  def self.read_all
-    returned_cards = DB.exec("SELECT * FROM cards;")
-    cards = []
-    returned_cards.each() do |card|
-      front = card.fetch("front")
-      back = card.fetch("back")
-      cards.push(Card.new({:front => front, :back => back}))
-    end
-    return cards
-  end
-
-  def self.remove_all
-    DB.exec("DELETE FROM cards *;")
-  end
-
-  def ==(other_card)
-    (@front == other_card.front) && (@back == other_card.back)
-  end
-
-  def create
-    already_there = false
-    cards = Card.read_all
-    cards.each do |card|
-      already_there = true if self==card
-    end
-    if !already_there
-      DB.exec("INSERT INTO cards (front, back) VALUES ('#{@front}', '#{@back}');")
-      result = DB.exec("SELECT id FROM cards WHERE front = '#{@front}' AND back = '#{@back}';")
-      @id = result[0].fetch('id').to_i
-    end
-  end
-
-  def update
-    DB.exec("UPDATE cards SET front = '#{@front}', back = '#{@back}' WHERE id=#{@id};")
-  end
-
-  def remove
-    DB.exec("DELETE FROM cards WHERE id=#{@id};")
   end
 end
