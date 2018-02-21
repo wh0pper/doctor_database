@@ -1,10 +1,11 @@
 class Patient
-  attr_accessor :name, :birthday, :need
+  attr_accessor :name, :birthday, :need, :doctorid
 
   def initialize(attributes)
     @name = attributes[:name]
     @birthday = attributes[:birthday]
     @need = attributes[:need]
+    @doctorid
   end
 
   def save
@@ -23,7 +24,8 @@ class Patient
   end
 
   def assign_dr(doctor_id)
-    DB.exec("UPDATE patients SET doctorID = '#{doctor_id}' WHERE name='#{@name}'")
+    @doctorid = doctor_id
+    DB.exec("UPDATE patients SET doctorid = '#{doctor_id}' WHERE name='#{@name}'")
   end
 
   def self.find(id)

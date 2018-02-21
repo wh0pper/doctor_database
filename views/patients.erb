@@ -1,9 +1,12 @@
 <h3>Patient:</h3>
 
-<h4><%= @this_patient['name'] %></h4>
+<h4><%= @this_patient.name %></h4>
+
+<h3>Current doctor:</h3>
+<%= @doc_name %>
 
 <h3>Assign Doctor:</h3>
-<form class="form-group" action="/patients/<%= @this_patient['id']%>" method="post">
+<form class="form-group" action="/patients/<%= @doc_id %>" method="get">
   <select name="doclist" placeholder= "DOCTOR">
     <% @doctors.each do |doctor| %>
       <option value="<%= doctor['id'] %>"><%= doctor['name'] %></option>

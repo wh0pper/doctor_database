@@ -50,17 +50,12 @@ end
 get('/patients/:id') do
   @this_patient = Patient.find(params[:id])
   @doctors = Doctor.read_all
+  @doc_id = params[:doclist]
+  # @this_patient.assign_dr(doc_id)
+  # @doc_name = Doctor.get_name(doc_id)
   erb(:patients)
 end
 
-post('/patients/:id') do
-  @this_patient = Patient.find(params[:id])
-  doc_id = params[:doclist]
-  @this_patient.assign_dr(doc_id)
-  @revised_patient = Patient.find(params[:id])
-  @doctors = Doctor.read_all
-  erb(:patients)
-end
 
 
 # get('/') do
