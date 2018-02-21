@@ -17,13 +17,20 @@ get('/doctors') do
   erb(:doctors)
 end
 
+post('/doctors') do
+  @doc_id = params[:doctor_id]
+  @doc_name = Doctor.get_name(@doc_id)
+  @patient_list = Doctor.get_patients(@doc_id)
+  erb(:doctors)
+end
+
 get('/patients') do
   erb(:patients)
 end
 
 get('/administrators') do
-  @doctors = []
-  @patients = []
+  @doctors = Doctor.read_all
+  @patients = Patient.read_all
   erb(:administrators)
 end
 
@@ -62,32 +69,3 @@ post('/patients/:id/assign') do
   @doc_name = Doctor.get_name(@doc_id)
   erb(:patients)
 end
-
-# get('/') do
-#   @cards = Card.read_all
-#   erb(:flashcards)
-# end
-#
-# post('/') do
-#   front = params["front"]
-#   back = params["back"]
-#   card = Card.new({:front => front, :back => back})
-#   card.create
-#   @cards = Card.read_all
-#   erb(:flashcards)
-# end
-
-# get('/:word') do
-#   word = params[:word]
-#   @entry = Entry.find(word)
-#   # binding.pry
-#   erb(:entry)
-# end
-#
-# post('/:word') do
-#   word = params[:word]
-#   definition = params["definition"]
-#   @entry = Entry.find(word)
-#   @entry.define(definition)
-#   erb(:entry)
-# end

@@ -1,1 +1,23 @@
-<h2>doc</h2>
+<h2>Doctor:</h2>
+
+<div class="well">
+  <h2>Enter your id:</h2>
+  <form class="form-group" action="/doctors" method="post">
+    <input name="doctor_id" class="form-control" type="text" placeholder= "Doctor ID" required><br>
+    <button type="submit" name="submit" class="btn btn-warning">ADD PT.</button>
+  </form>
+</div>
+
+
+<% if @doc_id %>
+  <% unless @patient_list.empty? %>
+    <h3>Welcome, <%= @doc_name %>. Here are all of your patients:</h3>
+    <% @patient_list.each do |patient| %>
+      <div class= "well">
+        <p> <%= patient['name'] %> </p>
+      </div>
+    <% end %>
+  <% else %>
+      <h3>No patients currently assigned</h3>
+  <% end %>
+<% end %>
