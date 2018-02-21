@@ -28,18 +28,17 @@ get('/administrators') do
 end
 
 post('/administrators') do
-
   doctor_name = params[:name_doc]
   specialty = params[:specialty]
   patient_name = params[:name_patient]
-  birthday = params[:birthday]
+  dob = params[:dob]
   need = params[:need]
   if doctor_name
     doctor = Doctor.new({:name => doctor_name, :specialty => specialty})
     doctor.save
   end
   if patient_name
-    patient = Patient.new({:name => patient_name, :birthday => birthday, :need => need})
+    patient = Patient.new({:name => patient_name, :dob => dob, :need => need})
     patient.save
   end
   @doctors = Doctor.read_all
@@ -49,14 +48,20 @@ end
 
 get('/patients/:id') do
   @this_patient = Patient.find(params[:id])
+  @this_patient.get_id
   @doctors = Doctor.read_all
-  @doc_id = params[:doclist]
-  # @this_patient.assign_dr(doc_id)
-  # @doc_name = Doctor.get_name(doc_id)
   erb(:patients)
 end
 
-
+post('/patients/:id/assign') do
+  @this_patient = Patient.find(params[:id])
+  @this_patient.get_id
+  @doctors = Doctor.read_all
+  @doc_id = params[:doclist]
+  @this_patient.assign_dr(@doc_id)
+  @doc_name = Doctor.get_name(@doc_id)
+  erb(:patients)
+end
 
 # get('/') do
 #   @cards = Card.read_all

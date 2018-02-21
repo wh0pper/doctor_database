@@ -1,17 +1,21 @@
 class Patient
-  attr_accessor :name, :birthday, :need, :doctorid
+  attr_accessor :name, :dob, :need, :doctorid, :id
 
   def initialize(attributes)
     @name = attributes[:name]
-    @birthday = attributes[:birthday]
+    @dob = attributes[:dob]
     @need = attributes[:need]
     @doctorid
   end
 
   def save
     if !(DB.exec("SELECT * FROM patients;").column_values(1).include?(@name))
-      DB.exec("INSERT INTO patients (name, birthday, need) VALUES ('#{@name}', '#{@birthday}', '#{@need}');")
+      DB.exec("INSERT INTO patients (name, dob, need) VALUES ('#{@name}', '#{@dob}', '#{@need}');")
     end
+  end
+
+  def get_id
+    @id = DB.exec("SELECT id FROM patients WHERE name='#{@name}';")[0]['id'].to_i
   end
 
   def self.read_all
@@ -30,7 +34,8 @@ class Patient
 
   def self.find(id)
     info = DB.exec("SELECT * FROM patients WHERE id='#{id}';")[0]
-    Patient.new({:name => "#{info['name']}", :birthday => "#{info['birthday']}", :need => "#{info['need']}"})
+    Patient.new({:name => "#{info['name']}", :dob => "#{info['dob']}", :need => "#{info['need']}"})
   end
+
 
 end
